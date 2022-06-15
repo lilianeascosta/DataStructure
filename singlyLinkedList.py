@@ -53,7 +53,7 @@ class LinkedList:
         current_node = self.head
         while current_node != None:
             if current_idx == index:
-                return current_node.data
+                return current_node
             current_node = current_node.next
             current_idx += 1
 
@@ -79,12 +79,135 @@ class LinkedList:
             current_node = next
         self.head = previous_node
 
-    # TO DO:
-    # def search_items(self, value):
+    def search_item(self, value):
+        if self.head == None:
+            print("Empty Linked List")
 
-    # def remove_at_start():
+        found = False
+        current_node = self.head
 
-    # def remove_at_end():
+        if current_node is None:
+            print("Empty linked list")
+        
+        while found != True:
+            if current_node.data == value:
+                found = True
+                return True
+            current_node = current_node.next
+            if (current_node == None) and (found == False):
+                print(value, " wasn't found inside the Linked List.")
+                return False
+
+    def remove_at_start(self):
+        if self.head == None:
+            print("Error: linked list empty")
+            return
+        
+        if self.get(1) == None: # há apenas um elemento na lista
+            self.head = None
+
+        new_first = self.get(1)
+        self.head = new_first
+        
+        return
+
+    def remove_at_end(self):
+        if self.head == None:
+            print("Error: linked list empty")
+            return
+        if self.length() == 1: # há apenas um elemento na lista
+            self.remove_at_start()
+
+        new_last = self.get(self.length() - 2)
+        new_last.next = None
+        return
+
+    def insert_at_start(self, value):
+        new_node = Node(value)
+        if self.head == None:
+            self.head = new_node
+            return
+        
+        first_node = self.get(0) # to take the first node before the update
+
+        self.head = new_node # making the head to point at the new_node, the new first one
+        self.head.next = first_node # making the new first to the old first.
+
+        return
+
+    def insert_at_end(self, value):
+        new_node = Node(value)
+        if self.head == None:
+            self.head = new_node
+            return
+        
+        current_node = self.head
+
+        while current_node.next:
+            current_node = current_node.next
+
+        current_node.next = new_node
+        return
+
+    def remove_element_by_value(self, value):
+        if self.head == None:
+            print("Error: linked list is empty")
+            return
+        if self.search_item(value) == False:
+            print("Error: element doesn't exist inside the linked list")
+            return
+        
+        current_idx = 0
+        current_node = self.head
+        while current_node != None:
+            if current_node.data == value:
+                if(current_idx == 0):
+                    self.remove_at_start()
+                    return
+                if(current_idx+1 == self.length()):
+                    self.remove_at_end()
+                    return
+
+                # taking the values I need
+                before_node = self.get(current_idx-1)
+                next_node = self.get(current_idx+1)
+
+                # updating the connection
+                before_node.next = next_node
+
+                return
+
+            current_node = current_node.next
+            current_idx += 1
+
+    def insert_at_index(self, index, value):
+        new_node = Node(value)
+        if self.head == None:
+            self.head = new_node
+            return
+        
+        length = self.length()
+        if index == 0:
+            self.insert_at_start
+            return
+        if index == length:
+            self.insert_at_end(value)
+            return
+        if index > length:
+            print("Error: out of index")
+            return
+
+        # taking the values I need
+        new_node = Node(value)
+        before_node = self.get(index-1)
+        next_node = self.get(index) # I'll replace the value of this "index"
+
+        # making the necessary conections
+        before_node.next = new_node
+        new_node.next = next_node
+
+        return
+
 
 # Test
 my_list = LinkedList()
@@ -104,24 +227,37 @@ print("-----------")
 my_list.reverse_linkedList()
 my_list.display()
 
+print("-----------")
+print("Searching item")
+my_list.search_item(7)
+my_list.search_item(77)
 
-# my_list.search_item(7)
-# my_list.search_item(77)
+print("-----------")
+print("Removing item from start")
+my_list.remove_at_start()
+my_list.display()
 
-# my_list.remove_at_start()
-# my_list.display()
+print("-----------")
+print("Removing item from end")
+my_list.remove_at_end()
+my_list.display()
 
-# my_list.remove_at_end()
-# my_list.display()
+print("-----------")
+print("Inserting item at start")
+my_list.insert_at_start(10)
+my_list.display()
 
-# my_list.insert_at_start(1)
-# my_list.display()
+print("-----------")
+print("Inserting item at end")
+my_list.insert_at_end(3)
+my_list.display()
 
-# my_list.insert_at_end(3)
-# my_list.display()
+print("-----------")
+print("Removing item by value")
+my_list.remove_element_by_value(3)
+my_list.display()
 
-# my_list.remove_element_by_value(3)
-# my_list.display()
-
-# my_list.insert_at_index(2, 88)
-# my_list.display()
+print("-----------")
+print("Inserting item at index")
+my_list.insert_at_index(2, 88)
+my_list.display()
