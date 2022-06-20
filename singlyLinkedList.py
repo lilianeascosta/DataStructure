@@ -85,9 +85,6 @@ class LinkedList:
 
         found = False
         current_node = self.head
-
-        if current_node is None:
-            print("Empty linked list")
         
         while found != True:
             if current_node.data == value:
@@ -103,7 +100,7 @@ class LinkedList:
             print("Error: linked list empty")
             return
         
-        if self.get(1) == None: # há apenas um elemento na lista
+        if self.get(1) == None: # there is only one element inside the list
             self.head = None
 
         new_first = self.get(1)
@@ -188,7 +185,7 @@ class LinkedList:
         
         length = self.length()
         if index == 0:
-            self.insert_at_start
+            self.insert_at_start(value)
             return
         if index == length:
             self.insert_at_end(value)
